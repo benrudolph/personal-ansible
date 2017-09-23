@@ -34,7 +34,7 @@
             - gzip on
         nginx_configs:
             upstream:
-                - upstream thingsonreddit { server unix:/var/www/thingsonreddit/shared/tmp/sockets/thingsonreddit-puma.sock; }
+                - upstream thingsonreddit { server unix:/var/www/thingsonreddit/shared/tmp/sockets/thingsonreddit-puma.sock fail_timeout=0; }
         nginx_sites:
             default:
                 - listen 80 default_server
@@ -68,6 +68,14 @@
                 # May have to comment out until letsencrypt has been run
                 - ssl_certificate /etc/letsencrypt/live/bitbybit.benrudolph.com/fullchain.pem
                 - ssl_certificate_key /etc/letsencrypt/live/bitbybit.benrudolph.com/privkey.pem
+                - |
+                  location /assets {
+                    try_files $uri =404;
+                  }
+                - |
+                  location /packs {
+                    try_files $uri =404;
+                  }
                 - |
                   location / {
                     try_files $uri $uri/ =404;
