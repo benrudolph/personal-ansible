@@ -1,0 +1,5 @@
+[personal]
+165.227.50.208
+
+[personal:vars]
+ansible_python_interpreter=/usr/bin/python3
