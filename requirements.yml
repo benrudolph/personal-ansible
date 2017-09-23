@@ -1,2 +1,4 @@
 - src: zzet.rbenv
   version: 3.3.2
+
+- src: vaulttec.zsh

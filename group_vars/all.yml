@@ -12,3 +12,9 @@ rbenv:
   default_ruby: 2.4.1
   rubies:
     - version: 2.4.1
+    - version: 2.2.0
+
+# vaulttect.zsh
+zsh_users:
+  - "{{ deploy_user }}"
+zsh_ohmy_theme: robbyrussell
