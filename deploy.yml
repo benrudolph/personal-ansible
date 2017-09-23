@@ -21,6 +21,7 @@
         with_items:
             - { domain: bitbybit.benrudolph.com, webroot: /var/www/bitbybit/current/public }
             - { domain: benrudolph.com, webroot: /var/www/benrudolph/current/_site }
+            - { domain: thingsonreddit.com, webroot: /var/www/thingsonreddit/current/public }
         loop_control:
             loop_var: role_item
 
@@ -33,7 +34,7 @@
             - gzip on
         nginx_configs:
             upstream:
-                - upstream thingsonreddit { server unix:/var/www/thingsonreddit/shared/sockets/unicorn.sock fail_timeout=0; }
+                - upstream thingsonreddit { server unix:/var/www/thingsonreddit/shared/tmp/sockets/thingsonreddit-puma.sock; }
         nginx_sites:
             default:
                 - listen 80 default_server
@@ -81,8 +82,8 @@
                 - index index.html index.htm
                 - ssl_protocols TLSv1 TLSv1.1 TLSv1.2
                 - ssl_ciphers HIGH:!aNULL:!MD5
-                  #- ssl_certificate /etc/letsencrypt/live/thingsonreddit/fullchain.pem
-                  #- ssl_certificate_key /etc/letsencrypt/live/thingsonreddit/privkey.pem
+                - ssl_certificate /etc/letsencrypt/live/thingsonreddit.com/fullchain.pem
+                - ssl_certificate_key /etc/letsencrypt/live/thingsonreddit.com/privkey.pem
                 - |
                   location / {
                     proxy_pass http://thingsonreddit;
@@ -92,4 +93,3 @@
                     proxy_set_header  X-Forwarded-Ssl on;
                     proxy_redirect off;
                   }
-
