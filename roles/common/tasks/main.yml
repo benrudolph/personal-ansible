@@ -36,7 +36,7 @@
     dest: /etc/sudoers
     state: present
     regexp: '^%deploy'
-    line: '%deploy ALL=(ALL)      ALL'
+    line: '%deploy ALL=(ALL)      NOPASSWD: ALL'
     validate: 'visudo -cf %s'
 
 - name: Set authorized keys
@@ -54,9 +54,9 @@
     group: deploy
     state: directory
 
-- name: Disallow root SSH access
+- name: Disallow password SSH access
   lineinfile:
     dest: /etc/ssh/sshd_config
-    regexp: "^PermitRootLogin"
-    line: "PermitRootLogin no"
+    regexp: "^PasswordAuthentication"
+    line: "PasswordAuthentication no"
     state: present
