@@ -21,3 +21,6 @@ zsh_ohmy_theme: robbyrussell
 
 nodejs_version: '8.x'
 nodejs_install_npm_user: '{{ deploy_user }}'
+
+swapfile_size: 1GB
+swapfile_swappiness: 0

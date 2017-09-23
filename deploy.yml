@@ -5,6 +5,7 @@
       - { role: vaulttec.zsh, tags: zsh }
       - { role: zzet.rbenv, tags: rbenv }
       - { role: geerlingguy.nodejs, tags: node }
+      - { role: kamaln7.swapfile, tags: swap }
 
 # Lets encrypt
 - hosts: personal
