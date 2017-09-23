@@ -18,3 +18,6 @@ rbenv:
 zsh_users:
   - "{{ deploy_user }}"
 zsh_ohmy_theme: robbyrussell
+
+nodejs_version: '8.x'
+nodejs_install_npm_user: '{{ deploy_user }}'

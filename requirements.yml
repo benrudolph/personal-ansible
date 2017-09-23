@@ -2,3 +2,9 @@
   version: 3.3.2
 
 - src: vaulttec.zsh
+#  https://galaxy.ansible.com/jdauphant/nginx/
+- src: jdauphant.nginx
+
+- src: thefinn93.letsencrypt
+- src: geerlingguy.nodejs
+  version: 4.1.2

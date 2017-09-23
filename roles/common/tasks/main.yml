@@ -1,3 +1,12 @@
+- name: Fetch Yarn pkg
+  shell: |
+    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+
+- name: Update apt
+  shell: |
+    apt-get update
+
 - name: Install common packages
   apt:
     name: '{{item}}'
@@ -8,6 +17,7 @@
     - zip
     - git
     - zsh
+    - yarn
 
 - name: Deploy group
   group:
@@ -19,6 +29,15 @@
     name: deploy
     group: deploy
     shell: /bin/zsh
+    password: EPkP5waGinsL2
+
+- name: Allow deploy group to have sudo permissions
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%deploy'
+    line: '%deploy ALL=(ALL)      ALL'
+    validate: 'visudo -cf %s'
 
 - name: Set authorized keys
   authorized_key:
@@ -34,3 +53,10 @@
     owner: deploy
     group: deploy
     state: directory
+
+- name: Disallow root SSH access
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^PermitRootLogin"
+    line: "PermitRootLogin no"
+    state: present

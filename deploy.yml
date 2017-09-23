@@ -1,5 +1,94 @@
 ---
 - hosts: personal
   roles:
-    - common
-    - zzet.rbenv
+      - { role: common, tags: common }
+      - { role: vaulttec.zsh, tags: zsh }
+      - { role: zzet.rbenv, tags: rbenv }
+      - { role: geerlingguy.nodejs, tags: node }
+
+# Lets encrypt
+- hosts: personal
+  tags: letsencrypt
+  tasks:
+      - include_role:
+            name: thefinn93.letsencrypt
+        vars:
+            letsencrypt_webroot_path: '{{ role_item.webroot }}'
+            letsencrypt_email: rudolphben@gmail.com
+            letsencrypt_cert_domains:
+                - '{{ role_item.domain }}'
+        with_items:
+            - { domain: bitbybit.benrudolph.com, webroot: /var/www/bitbybit/current/public }
+            - { domain: benrudolph.com, webroot: /var/www/benrudolph/current/_site }
+        loop_control:
+            loop_var: role_item
+
+# Proxy
+- hosts: personal
+  tags: proxy
+  roles:
+      - role: jdauphant.nginx
+        nginx_http_params:
+            - gzip on
+        nginx_configs:
+            upstream:
+                - upstream thingsonreddit { server unix:/var/www/thingsonreddit/shared/sockets/unicorn.sock fail_timeout=0; }
+        nginx_sites:
+            default:
+                - listen 80 default_server
+                - listen [::]:80 default_server
+                - return 301 https://$host$request_uri
+          # benrudolph.com: Jekyll
+            benrudolph:
+                - server_name benrudolph.com www.benrudolph.com
+                - root /var/www/benrudolph/current/_site
+                - listen 80
+                - listen 443 ssl
+                - index index.html index.htm
+                - ssl_protocols TLSv1 TLSv1.1 TLSv1.2
+                - ssl_ciphers HIGH:!aNULL:!MD5
+                # May have to comment out until letsencrypt has been run
+                - ssl_certificate /etc/letsencrypt/live/benrudolph.com/fullchain.pem
+                - ssl_certificate_key /etc/letsencrypt/live/benrudolph.com/privkey.pem
+                - |
+                  location / {
+                    try_files $uri $uri/ =404;
+                  }
+          # Bit By Bit: Jekyll
+            bitbybit:
+                - server_name bitbybit.benrudolph.com
+                - root /var/www/bitbybit/current/public
+                - listen 80
+                - listen 443 ssl
+                - index index.html index.htm
+                - ssl_protocols TLSv1 TLSv1.1 TLSv1.2
+                - ssl_ciphers HIGH:!aNULL:!MD5
+                # May have to comment out until letsencrypt has been run
+                - ssl_certificate /etc/letsencrypt/live/bitbybit.benrudolph.com/fullchain.pem
+                - ssl_certificate_key /etc/letsencrypt/live/bitbybit.benrudolph.com/privkey.pem
+                - |
+                  location / {
+                    try_files $uri $uri/ =404;
+                  }
+
+            # ThingsOnReddit: Rails
+            thingsonreddit:
+                - listen 80
+                - listen 443 ssl
+                - root /var/www/thingsonreddit/current/public
+                - server_name thingsonreddit.com www.thingsonreddit.com
+                - index index.html index.htm
+                - ssl_protocols TLSv1 TLSv1.1 TLSv1.2
+                - ssl_ciphers HIGH:!aNULL:!MD5
+                  #- ssl_certificate /etc/letsencrypt/live/thingsonreddit/fullchain.pem
+                  #- ssl_certificate_key /etc/letsencrypt/live/thingsonreddit/privkey.pem
+                - |
+                  location / {
+                    proxy_pass http://thingsonreddit;
+                    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                    proxy_set_header Host $http_host;
+                    proxy_set_header  X-Forwarded-Proto $scheme;
+                    proxy_set_header  X-Forwarded-Ssl on;
+                    proxy_redirect off;
+                  }
+
