@@ -1,0 +1,17 @@
+- name: Deploy group
+  group:
+    name: deploy
+    state: present
+
+- name: Setup deploy user
+  user:
+    name: deploy
+    group: deploy
+
+- name: Set authorized keys
+  authorized_key:
+    user: deploy
+    state: present
+    key: '{{ item }}'
+  with_lines:
+    - "cat pub_keys/*"

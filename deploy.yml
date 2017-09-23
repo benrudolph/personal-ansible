@@ -1,0 +1,5 @@
+---
+- hosts: personal
+  roles:
+    - common
+    - zzet.rbenv
