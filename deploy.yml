@@ -69,14 +69,6 @@
                 - ssl_certificate /etc/letsencrypt/live/bitbybit.benrudolph.com/fullchain.pem
                 - ssl_certificate_key /etc/letsencrypt/live/bitbybit.benrudolph.com/privkey.pem
                 - |
-                  location /assets {
-                    try_files $uri =404;
-                  }
-                - |
-                  location /packs {
-                    try_files $uri =404;
-                  }
-                - |
                   location / {
                     try_files $uri $uri/ =404;
                   }
@@ -92,6 +84,10 @@
                 - ssl_ciphers HIGH:!aNULL:!MD5
                 - ssl_certificate /etc/letsencrypt/live/thingsonreddit.com/fullchain.pem
                 - ssl_certificate_key /etc/letsencrypt/live/thingsonreddit.com/privkey.pem
+                - |
+                  location ~ ^/(assets|packs|favicon|robots) {
+                    try_files $uri =404;
+                  }
                 - |
                   location / {
                     proxy_pass http://thingsonreddit;
