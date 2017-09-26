@@ -85,7 +85,7 @@
                 - ssl_certificate /etc/letsencrypt/live/thingsonreddit.com/fullchain.pem
                 - ssl_certificate_key /etc/letsencrypt/live/thingsonreddit.com/privkey.pem
                 - |
-                  location ~ ^/(assets|packs|favicon|robots) {
+                  location ~ ^/(assets|packs|favicon|robots|static|sitemap.xml) {
                     try_files $uri =404;
                   }
                 - |
