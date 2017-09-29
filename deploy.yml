@@ -22,6 +22,7 @@
             - { domain: bitbybit.benrudolph.com, webroot: /var/www/bitbybit/current/public }
             - { domain: benrudolph.com, webroot: /var/www/benrudolph/current/_site }
             - { domain: thingsonreddit.com, webroot: /var/www/thingsonreddit/current/public }
+            - { domain: blog.thingsonreddit.com, webroot: /var/www/blog.thingsonreddit/current/_site }
         loop_control:
             loop_var: role_item
 
@@ -68,6 +69,23 @@
                 # May have to comment out until letsencrypt has been run
                 - ssl_certificate /etc/letsencrypt/live/bitbybit.benrudolph.com/fullchain.pem
                 - ssl_certificate_key /etc/letsencrypt/live/bitbybit.benrudolph.com/privkey.pem
+                - |
+                  location / {
+                    try_files $uri $uri/ =404;
+                  }
+
+          # blog.thingsonreddit: Jekyll
+            blog.thingsonreddit:
+                - server_name bitbybit.benrudolph.com
+                - root /var/www/blog.thingsonreddit/current/_site
+                - listen 80
+                - listen 443 ssl
+                - index index.html index.htm
+                - ssl_protocols TLSv1 TLSv1.1 TLSv1.2
+                - ssl_ciphers HIGH:!aNULL:!MD5
+                # May have to comment out until letsencrypt has been run
+                - ssl_certificate /etc/letsencrypt/live/blog.thingsonreddit.com/fullchain.pem
+                - ssl_certificate_key /etc/letsencrypt/live/blog.thingsonreddit.com/privkey.pem
                 - |
                   location / {
                     try_files $uri $uri/ =404;
