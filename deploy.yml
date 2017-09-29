@@ -76,7 +76,7 @@
 
           # blog.thingsonreddit: Jekyll
             blog.thingsonreddit:
-                - server_name bitbybit.benrudolph.com
+                - server_name blog.thingsonreddit.com
                 - root /var/www/blog.thingsonreddit/current/_site
                 - listen 80
                 - listen 443 ssl
