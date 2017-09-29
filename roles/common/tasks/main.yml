@@ -19,6 +19,8 @@
     - zsh
     - yarn
     - htop
+    - sqlite3
+    - libsqlite3-dev
 
 - name: Deploy group
   group:
