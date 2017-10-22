@@ -24,3 +24,19 @@ nodejs_install_npm_user: '{{ deploy_user }}'
 
 swapfile_size: 1GB
 swapfile_swappiness: 0
+
+# Postgres
+postgresql_version: 9.6
+
+postgresql_databases:
+  - name: police_demos
+    owner: deploy       # optional; specify the owner of the database
+    hstore: yes         # flag to install the hstore extension on this database (yes/no)
+    uuid_ossp: yes      # flag to install the uuid-ossp extension on this database (yes/no)
+    citext: yes         # flag to install the citext extension on this database (yes/no)
+    encoding: 'UTF-8'   # override global {{ postgresql_encoding }} variable per database
+    lc_collate: 'en_US.UTF-8'   # override global {{ postgresql_locale }} variable per database
+    lc_ctype: 'en_US.UTF-8'     #
+
+postgresql_users:
+  - name: deploy

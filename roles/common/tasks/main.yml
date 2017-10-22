@@ -22,6 +22,7 @@
     - sqlite3
     - libsqlite3-dev
     - imagemagick
+    - python3-psycopg2
 
 - name: Deploy group
   group:

@@ -9,3 +9,4 @@
 - src: geerlingguy.nodejs
   version: 4.1.2
 - src: kamaln7.swapfile
+- src: ANXS.postgresql
