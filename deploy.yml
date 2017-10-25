@@ -133,7 +133,7 @@
                 - ssl_certificate /etc/letsencrypt/live/first48.us/fullchain.pem
                 - ssl_certificate_key /etc/letsencrypt/live/first48.us/privkey.pem
                 - |
-                  location ~ ^/(assets|packs|favicon|robots|static|sitemap.xml) {
+                  location ~ ^/(assets|packs|favicon|robots|static|system|sitemap.xml) {
                     try_files $uri =404;
                   }
                 - |
