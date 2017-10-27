@@ -23,6 +23,8 @@
     - libsqlite3-dev
     - imagemagick
     - python3-psycopg2
+    - libimage-exiftool-perl
+    - ffmpeg
 
 - name: Deploy group
   group:
