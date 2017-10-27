@@ -132,6 +132,7 @@
                 - ssl_ciphers HIGH:!aNULL:!MD5
                 - ssl_certificate /etc/letsencrypt/live/first48.us/fullchain.pem
                 - ssl_certificate_key /etc/letsencrypt/live/first48.us/privkey.pem
+                - client_max_body_size 5m
                 - |
                   location ~ ^/(assets|packs|favicon|robots|static|system|sitemap.xml) {
                     try_files $uri =404;
