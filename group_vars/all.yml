@@ -37,6 +37,14 @@ postgresql_databases:
     encoding: 'UTF-8'   # override global {{ postgresql_encoding }} variable per database
     lc_collate: 'en_US.UTF-8'   # override global {{ postgresql_locale }} variable per database
     lc_ctype: 'en_US.UTF-8'     #
+  - name: thingsonreddit
+    owner: deploy       # optional; specify the owner of the database
+    hstore: yes         # flag to install the hstore extension on this database (yes/no)
+    uuid_ossp: yes      # flag to install the uuid-ossp extension on this database (yes/no)
+    citext: yes         # flag to install the citext extension on this database (yes/no)
+    encoding: 'UTF-8'   # override global {{ postgresql_encoding }} variable per database
+    lc_collate: 'en_US.UTF-8'   # override global {{ postgresql_locale }} variable per database
+    lc_ctype: 'en_US.UTF-8'     #
 
 postgresql_database_extensions:
   - db: police_demos
@@ -45,6 +53,10 @@ postgresql_database_extensions:
       - citext
       - cube
       - earthdistance
+  - db: thingsonreddit
+    extensions:
+      - hstore
+      - citext
 
 postgresql_users:
   - name: deploy
