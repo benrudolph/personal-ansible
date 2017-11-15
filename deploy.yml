@@ -25,6 +25,7 @@
             - { domain: thingsonreddit.com, webroot: /var/www/thingsonreddit/current/public }
             - { domain: blog.thingsonreddit.com, webroot: /var/www/blog.thingsonreddit/current/_site }
             - { domain: first48.us, webroot: /var/www/police_demos/current/public }
+            - { domain: pd.benrudolph.com, webroot: /var/www/pd_frontend/current/build }
         loop_control:
             loop_var: role_item
 
@@ -147,4 +148,23 @@
                     proxy_set_header  X-Forwarded-Port $server_port;
                     proxy_set_header  X-Forwarded-Host $host;
                     proxy_redirect off;
+                  }
+
+            pd_frontend:
+                - listen 80
+                - listen 443 ssl
+                - root /var/www/pd_frontend/current/build
+                - server_name pd.benrudolph.com
+                - index index.html
+                - ssl_protocols TLSv1 TLSv1.1 TLSv1.2
+                - ssl_ciphers HIGH:!aNULL:!MD5
+                - ssl_certificate /etc/letsencrypt/live/pd.benrudolph.com/fullchain.pem
+                - ssl_certificate_key /etc/letsencrypt/live/pd.benrudolph.com/privkey.pem
+                - |
+                - location ~ ^.+\..+$ {
+                    try_files $uri =404;
+                  }
+                - |
+                  location / {
+                    try_files $uri /index.html;
                   }
