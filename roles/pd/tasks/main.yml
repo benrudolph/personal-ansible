@@ -21,3 +21,11 @@
   with_items:
     - postgresql-9.6-postgis-2.4
     - postgresql-9.6-postgis-2.4-scripts
+
+
+- name: Copy over systemd configuration
+  template:
+    src: pd_gunicorn.service.j2
+    dest: /etc/systemd/system/pd_gunicorn.service
+    owner: deploy
+    group: deploy

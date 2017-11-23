@@ -1,0 +1,12 @@
+[Unit]
+Description=gunicorn PD daemon
+After=network.target
+
+[Service]
+User=deploy
+Group=deploy
+WorkingDirectory=/var/www/pd/current
+ExecStart=/var/www/pd/current/virtualenv/bin/gunicorn --access-logfile /var/www/pd/shared/access.log --workers 1 --bind unix:/var/www/pd/shared/pd.sock pd.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
