@@ -12,3 +12,12 @@
     dest: /home/deploy/pd/localsettings.py
     owner: deploy
     group: deploy
+
+
+- name: Install pd packages
+  apt:
+    name: '{{item}}'
+    state: installed
+  with_items:
+    - postgresql-9.6-postgis-2.4
+    - postgresql-9.6-postgis-2.4-scripts
