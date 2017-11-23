@@ -1,0 +1,21 @@
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': '{{ pd.db_name }}',
+        'USER': '{{ pd.db_user }}',
+        'PASSWORD': '{{ pd.db_password }}',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
+
+LOCAL_APPS = [
+]
+
+SECRET_KEY = '{{ pd.secret_key }}'
+
+DEBUG = False
+
+CORS_ORIGIN_WHITELIST = [
+    'pd.benrudolph.com',
+]

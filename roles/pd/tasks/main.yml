@@ -1,0 +1,14 @@
+- name: Ensure directory for settings is created
+  file:
+    path: /home/deploy/pd
+    owner: deploy
+    group: deploy
+    state: directory
+
+
+- name: Copy over localsettings
+  template:
+    src: localsettings.py.j2
+    dest: /home/deploy/pd/localsettings.py
+    owner: deploy
+    group: deploy
