@@ -1,6 +1,6 @@
 - name: Ensure directory for settings is created
   file:
-    path: /home/deploy/pd
+    path: '{{ pd_settings_dir }}'
     owner: deploy
     group: deploy
     state: directory
@@ -9,7 +9,7 @@
 - name: Copy over localsettings
   template:
     src: localsettings.py.j2
-    dest: /home/deploy/pd/localsettings.py
+    dest: '{{ pd_settings_dir }}/localsettings.py'
     owner: deploy
     group: deploy
 
@@ -27,5 +27,13 @@
   template:
     src: pd_gunicorn.service.j2
     dest: /etc/systemd/system/pd_gunicorn.service
+    owner: deploy
+    group: deploy
+
+
+- name: Copy over .env.production for pd-frontend
+  template:
+    src: env.production.j2
+    dest: '{{ pd_settings_dir }}/env.production'
     owner: deploy
     group: deploy
